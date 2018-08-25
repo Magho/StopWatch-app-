@@ -8,11 +8,11 @@ const DATA = {
   laps  : [1234, 2345, 3456, 4567],
 }
 
-function Timer ({interval}) {
+function Timer ({interval, style}) {
   const duration = moment.duration(interval)
   const centiseconds = Math.floor(duration.milliseconds() / 10)
   return (
-    <Text style = {styles.timer}>
+    <Text style = {style}>
       {duration.minutes()}:{duration.seconds()},{centiseconds}
     </Text>
   )
@@ -28,20 +28,43 @@ function RoundButton ({title, color, backgroundColor}) {
   )
 }
 
-function Lap ({number, interval}) {
+function Lap ({number, interval,fastest, slowest}) {
+  
+  const lapStyle = [
+    styles.lapText,
+    fastest && styles.fastest,
+    slowest && styles.slowest,
+  ]
+
   return (
     <View style={styles.lap}>
-      <Text style = {styles.lapText}> Lap {number} </Text>
-      <Text style = {styles.lapText}> {interval} </Text>
+      <Text style = {lapStyle}> Lap {number} </Text>
+      <Timer style = {lapStyle} interval={interval} />
     </View>
   )
 }
 
 function LapsTable ({laps}) {
+
+  const finishedLaps = laps.slice(1)
+  let min = Number.MAX_SAFE_INTEGER
+  let max = Number.MIN_SAFE_INTEGER
+  if (finishedLaps.length >= 2) {
+    finishedLaps.forEach(lap => {
+      if (lap < min ) min = lap
+      if (lap > max ) max = lap
+    })
+  }
+
   return (
     <ScrollView style = {styles.scrollView}>
       {laps.map((lap, index) => (
-        <Lap number={laps.length - index} key = {laps.length - index} interval={lap} />
+        <Lap
+          number={laps.length - index}
+          key = {laps.length - index}
+          interval={lap}
+          fastest={lap == min}
+          slowest={lap == max}        />
       ))}
     </ScrollView>
   )
@@ -52,7 +75,7 @@ export default class App extends Component{
     return (
       <View style={styles.container}>
 
-        <Timer interval={DATA.timer}/>
+        <Timer interval={DATA.timer} style = {styles.timer}/>
       
         <View style={styles.buttonsRow}>
           <RoundButton title='Reset' color='#ffffff' backgroundColor='#3D3D3D' />
@@ -117,5 +140,11 @@ const styles = StyleSheet.create({
   },
   scrollView : {
     alignSelf: 'stretch',
+  },
+  fastest : {
+    color : '#4BC05F'
+  },
+  slowest : {
+    color : '#CC3531'
   }
 })
