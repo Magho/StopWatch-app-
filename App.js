@@ -84,6 +84,10 @@ export default class App extends Component{
     }
   }
 
+  componentWillUnmount () {
+    clearInterval(this.timer)
+  }
+
   start = () => {
     const now = new Date().getTime()
     this.setState ({
@@ -98,10 +102,48 @@ export default class App extends Component{
   }
 
   lap = () => {
-    const { laps } = this.state
+
+    const timeStamp = new Date().getTime()
+    const { laps, now, start } = this.state
+    const [firstLap, ...other] = laps
     this.setState({
-      laps : [0, ...laps], 
+      laps  : [0, firstLap + now - start, ...other],
+      start : timeStamp,
+      now   : timeStamp,
     })
+  }
+
+  stop = () => {
+
+    clearInterval(this.timer)
+    const { laps, now, start } = this.state
+    const [firstLap, ...other] = laps
+    this.setState({
+      laps  : [firstLap + now - start, ...other],
+      start : 0,
+      now   : 0,
+    })
+  }
+
+  reset = () => {
+    this.setState({
+      laps :[],
+      now  : 0,
+      start : 0,
+    })
+  }
+
+  resume = () => {
+    const now = new Date().getTime()
+    this.setState({
+      start : now,
+      now,
+    })
+
+    this.timer = setInterval (() => {
+      this.setState ({ now : new Date() .getTime()})
+    },100)
+
   }
 
   render() {
@@ -112,14 +154,18 @@ export default class App extends Component{
     return (
       <View style={styles.container}>
 
-        <Timer interval={timer} style = {styles.timer}/>
+        <Timer
+          interval={laps.reduce((total, curr) => total + curr, 0) + timer}
+          style = {styles.timer}
+        />
       
         {laps.length == 0 && (
           <View style={styles.buttonsRow}>
             <RoundButton
-              title='Reset'
-              color='#ffffff'
-              backgroundColor='#3D3D3D'
+              title='Lap'
+              color='#8B8B90'
+              backgroundColor='#151515'
+              disabled
             />
             <RoundButton
               title='Start'
@@ -143,6 +189,23 @@ export default class App extends Component{
               color='#E33935'
               backgroundColor='#3C1715'
               onPress = {this.stop}
+            />
+          </View>
+        )}
+
+        {laps.length > 0 && start == 0 && (
+          <View style={styles.buttonsRow}>
+            <RoundButton
+              title='Reset'
+              color='#ffffff'
+              backgroundColor='#3D3D3D'
+              onPress = {this.reset}
+            />
+            <RoundButton
+              title='Resume'
+              color='#50D167'
+              backgroundColor='#1B361F'
+              onPress = {this.resume}
             />
           </View>
         )}
