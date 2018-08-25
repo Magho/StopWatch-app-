@@ -97,6 +97,13 @@ export default class App extends Component{
     },100)
   }
 
+  lap = () => {
+    const { laps } = this.state
+    this.setState({
+      laps : [0, ...laps], 
+    })
+  }
+
   render() {
 
     const { now, start, laps } = this.state
@@ -107,19 +114,39 @@ export default class App extends Component{
 
         <Timer interval={timer} style = {styles.timer}/>
       
-        <View style={styles.buttonsRow}>
-          <RoundButton
-            title='Reset'
-            color='#ffffff'
-            backgroundColor='#3D3D3D'
-          />
-          <RoundButton
-            title='Start'
-            color='#50D167'
-            backgroundColor='#1B361F'
-            onPress = {this.start}
-          />
-        </View>
+        {laps.length == 0 && (
+          <View style={styles.buttonsRow}>
+            <RoundButton
+              title='Reset'
+              color='#ffffff'
+              backgroundColor='#3D3D3D'
+            />
+            <RoundButton
+              title='Start'
+              color='#50D167'
+              backgroundColor='#1B361F'
+              onPress = {this.start}
+            />
+          </View>
+        )}
+
+        {start > 0 && (
+          <View style={styles.buttonsRow}>
+            <RoundButton
+              title='Lap'
+              color='#ffffff'
+              backgroundColor='#3D3D3D'
+              onPress = {this.lap}
+            />
+            <RoundButton
+              title='Stop'
+              color='#E33935'
+              backgroundColor='#3C1715'
+              onPress = {this.stop}
+            />
+          </View>
+        )}
+
       
         <LapsTable laps = {laps} timer = {timer} />
       
