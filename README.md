@@ -3,7 +3,7 @@ This app is a simple stop watch, made for learning purpose.
 
 ## Screenshots
 
-<img src="https://github.com/Magho/StopWatch-app-/blob/master/images/Screenshot_2018-08-25-22-49-20.png" width="400"> <img src="https://github.com/Magho/StopWatch-app-/blob/master/images/Screenshot_2018-08-25-22-49-25.png" width="400">  <img src="https://github.com/Magho/StopWatch-app-/blob/master/images/Screenshot_2018-08-25-22-49-31.png" width="400"> <img src="https://github.com/Magho/StopWatch-app-/blob/master/images/Screenshot_2018-08-25-22-49-42.png" width="400"> 
+<img src="https://github.com/Magho/StopWatch-app-/blob/master/images/Screenshot_2018-08-25-22-49-20.png" width="400"> <img src="https://github.com/Magho/StopWatch-app-/blob/master/images/Screenshot_2018-08-25-22-49-25.png" width="400">  <img src="https://github.com/Magho/StopWatch-app-/blob/master/images/Screenshot_2018-08-25-22-49-31.png" width="400"> <img src="https://github.com/Magho/StopWatch-app-/blob/master/images/Screenshot_2018-08-25-22-49-42.png" width="400"> ![Alt Text](https://github.com/Magho/StopWatch-app-/blob/master/images/Peek%202018-08-28%2011-38.gif)
 
 ## React and React Native version
 
